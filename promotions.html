@@ -67,81 +67,85 @@
 
 <script src="sponsors.js"></script>
 <script>
-    let leaderboard = [
-        { user: "🇨🇼 Maria", points: 47, sponsored: false },
-        { user: "🇳🇱 Johan", points: 44, sponsored: false },
-        { user: "🇺🇸 Mike", points: 42, sponsored: false },
-        { user: "🇨🇼 Kevin", points: 39, sponsored: false },
-        { user: "🏆 BlueWave Bank", points: 35, sponsored: true, message: "Banking on victory!" }
-    ];
-    
-    function renderLeaderboard() {
-        const container = document.getElementById("leaderboardList");
-        const sorted = [...leaderboard].sort((a,b) => b.points - a.points);
-        container.innerHTML = sorted.slice(0,10).map((u,i) => `
-            <div class="leaderboard-item">
-                <div class="rank">#${i+1}</div>
-                <div style="flex:1;"><strong>${u.user}</strong> ${u.sponsored ? '<span class="sponsored-badge">SPONSORED</span>' : ''}${u.sponsored ? `<div style="font-size:10px;">${u.message || ''}</div>` : ''}</div>
-                <div>${u.points} pts</div>
-            </div>
-        `).join('');
+const BLUEWAVE_API_URL = "https://script.google.com/macros/s/AKfycbzuh9dMshkt95gn7BX4oXMKBttAvGN-lYPS_wX0QeQaV5Bt_m_GJ-xLqg9MbEkQpGwe/exec";
+
+function getCurrentUnit() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("unit") || "CUR1";
+}
+
+async function loadPromos() {
+  const unit = getCurrentUnit();
+  const container =
+    document.getElementById("promoList") ||
+    document.getElementById("promosList") ||
+    document.getElementById("dailyPromoList") ||
+    document.querySelector(".promo-list");
+
+  if (!container) return;
+
+  container.innerHTML = "Loading promos...";
+
+  try {
+    const response = await fetch(BLUEWAVE_API_URL);
+    const data = await response.json();
+
+    const promos = (data.promos || [])
+      .filter(p => String(p.unitId).trim() === unit)
+      .filter(p => p.Active === true || String(p.Active).toLowerCase() === "true");
+
+    if (!promos.length) {
+      container.innerHTML = "No active promos yet.";
+      return;
     }
-    
-    function submitPrediction() {
-        const selected = document.querySelector('input[name="matchPick"]:checked');
-        const nameInput = document.getElementById("fanName").value.trim();
-        if (!selected) { alert("⚡ Select Germany, Curaçao or Draw"); return; }
-        if (!nameInput) { alert("Enter your name for the leaderboard"); return; }
-        alert(`🌟 Thanks ${nameInput}! Your prediction: ${selected.value}. Check back after match!`);
-    }
-    
-    function enterApp() {
-        document.getElementById("landingPage").style.display = "none";
-        document.getElementById("appWrapper").style.display = "block";
-        renderLeaderboard();
-        renderGold("goldContainer");
-        renderSilver("silverScroller");
-    }
-    <h2>🎁 Add Promo</h2>
 
-<label>Business Name</label>
-<input id="promoBusiness" placeholder="Example: Pizza Hut">
+    container.innerHTML = promos.reverse().map(p => `
+      <div class="promo-card" style="background:white;padding:15px;border-radius:14px;margin:12px 0;box-shadow:0 2px 8px rgba(0,0,0,.08);">
+        <h3>🎁 ${p.SponsorName || "Sponsor"}</h3>
+        <p>${p.Message || ""}</p>
+        <p><small>Valid until: ${p.ValidUntil || "Today"}</small></p>
+        ${p.Link ? `<a href="${formatLink(p.Link)}" target="_blank" style="display:block;background:#0066cc;color:white;text-align:center;padding:12px;border-radius:10px;text-decoration:none;font-weight:bold;">WhatsApp</a>` : ""}
+      </div>
+    `).join("");
 
-<label>Promo Message</label>
-<textarea id="promoMessage" placeholder="Show Blue Wave app and get 10% discount"></textarea>
+  } catch (err) {
+    container.innerHTML = "Could not load promos.";
+  }
+}
 
-<label>Valid Until</label>
-<input id="promoValidUntil" placeholder="Example: 2026-06-30">
+function formatLink(link) {
+  if (!link) return "";
+  if (link.startsWith("http")) return link;
+  if (link.startsWith("wa.me")) return "https://" + link;
+  return link;
+}
 
-<label>Link</label>
-<input id="promoLink" placeholder="https://wa.me/599...">
-
-<button onclick="savePromo()">SAVE PROMO</button>
-
-<div id="promoStatus"></div>
-    
-  </div>
-
-<script>
-    function shareApp() {
-        if (navigator.share) {
-            navigator.share({
-                title: 'Blue Wave 2026',
-                text: '🏆 Join the Blue Wave prediction leaderboard!',
-                url: window.location.href
-            }).catch(() => { navigator.clipboard.writeText(window.location.href); alert('Link copied!'); });
-        } else {
-            navigator.clipboard.writeText(window.location.href);
-            alert('🔗 Link copied! Share: ' + window.location.href);
-        }
-    }
-    
-    document.addEventListener("DOMContentLoaded", () => {
-        renderPremium("premiumContainer");
-        document.getElementById("enterAppBtn").addEventListener("click", enterApp);
-        document.getElementById("shareAppBtn").addEventListener("click", shareApp);
-        document.getElementById("submitPredictionBtn").addEventListener("click", submitPrediction);
+function shareApp() {
+  if (navigator.share) {
+    navigator.share({
+      title: 'Blue Wave Daily Promos',
+      text: '🎁 Check today’s Blue Wave promos!',
+      url: window.location.href
+    }).catch(() => {
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copied!');
     });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    alert('🔗 Link copied! Share: ' + window.location.href);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPromos();
+
+  if (typeof renderPremium === "function") renderPremium("premiumContainer");
+  if (typeof renderGold === "function") renderGold("goldContainer");
+  if (typeof renderSilver === "function") renderSilver("silverScroller");
+
+  const shareBtn = document.getElementById("shareAppBtn");
+  if (shareBtn) shareBtn.addEventListener("click", shareApp);
+});
 </script>
 </body>
 </html>
