@@ -10,7 +10,18 @@ const FALLBACK_MATCHES = [
 ];
 
 let liveMatches = [...FALLBACK_MATCHES];
+const BLUEWAVE_API_URL = "https://script.google.com/macros/s/AKfycbzuh9dMshkt95gn7BX4oXMKBttAvGN-lYPS_wX0QeQaV5Bt_m_GJ-xLqg9MbEkQpGwe/exec";
 
+async function fetchBlueWaveData() {
+    try {
+        const response = await fetch(BLUEWAVE_API_URL);
+        if (!response.ok) throw new Error("Blue Wave API unavailable");
+        return await response.json();
+    } catch (error) {
+        console.warn("Blue Wave API error", error);
+        return { promos: [], shoutouts: [] };
+    }
+}
 // ========== ESPN API INTEGRATION ==========
 async function fetchLiveScores() {
     try {
@@ -203,7 +214,10 @@ function renderDailyPromo(data) {
   `;
 }
 // ========== INITIALIZATION ==========
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => { fetchBlueWaveData().then(data => {
+    renderShoutouts(data);
+    renderDailyPromo(data);
+});
     renderPremium("premiumContainer");
     renderGold("goldContainer");
     renderSilver("silverScroller");
