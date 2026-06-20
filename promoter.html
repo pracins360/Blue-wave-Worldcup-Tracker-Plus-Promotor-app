@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Blue Wave Promoter App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef7ff;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    h1 {
+      color: #0066cc;
+      text-align: center;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 12px;
+      display: block;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 6px;
+      font-size: 17px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #0066cc;
+      color: white;
+      font-weight: bold;
+      margin-top: 20px;
+      border: none;
+    }
+
+    #status {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>🌊 Blue Wave CUR1</h1>
+    <p style="text-align:center;">Promoter Lead Test</p>
+
+    <label>Business Name</label>
+    <input id="business" placeholder="Example: Pizza Hut">
+
+    <label>Contact Person</label>
+    <input id="contactPerson" placeholder="Owner name">
+
+    <label>WhatsApp</label>
+    <input id="whatsapp" placeholder="599...">
+
+    <label>Interest</label>
+    <select id="interest">
+      <option>Gold</option>
+      <option>Premium</option>
+      <option>Shoutout</option>
+    </select>
+
+    <label>Notes</label>
+    <textarea id="notes" placeholder="Extra information"></textarea>
+
+    <button onclick="saveLead()">SAVE LEAD</button>
+
+    <div id="status"></div>
+  </div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzuh9dMshkt95gn7BX4oXMKBttAvGN-lYPS_wX0QeQaV5Bt_m_GJ-xLqg9MbEkQpGwe/exec";
+
+function getUnitId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("unit") || "CUR1";
+}
+
+async function saveLead() {
+  const status = document.getElementById("status");
+  status.innerHTML = "Saving...";
+
+  const data = {
+    action: "addLead",
+    unitId: getUnitId(),
+    business: document.getElementById("business").value,
+    contactPerson: document.getElementById("contactPerson").value,
+    whatsapp: document.getElementById("whatsapp").value,
+    interest: document.getElementById("interest").value,
+    notes: document.getElementById("notes").value
+  };
+
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    status.innerHTML = "✅ Lead sent. Check LEADS sheet.";
+
+    document.getElementById("business").value = "";
+    document.getElementById("contactPerson").value = "";
+    document.getElementById("whatsapp").value = "";
+    document.getElementById("notes").value = "";
+
+  } catch (error) {
+    status.innerHTML = "❌ Error. Check connection.";
+  }
+}
+</script>
+
+</body>
+</html>
