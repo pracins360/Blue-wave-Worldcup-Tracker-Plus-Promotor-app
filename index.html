@@ -313,7 +313,66 @@ function showToast(text){
   t.style.display = 'block';
   setTimeout(()=> t.style.display='none', 2200);
 }
+const BLUEWAVE_API_URL = "https://script.google.com/macros/s/AKfycbzuh9dMshkt95gn7BX4oXMKBttAvGN-lYPS_wX0QeQaV5Bt_m_GJ-xLqg9MbEkQpGwe/exec";
 
+function getCurrentUnit() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("unit") || "CUR1";
+}
+
+async function loadBlueWaveCommercials() {
+  const ticker = document.getElementById("tickerText");
+  const promoBox = document.getElementById("dailyPromoBox");
+
+  if (ticker) ticker.textContent = "🚀 Loading Blue Wave data...";
+
+  try {
+    const response = await fetch(BLUEWAVE_API_URL);
+    const data = await response.json();
+    const unit = getCurrentUnit();
+
+    const shoutouts = (data.shoutouts || [])
+      .filter(s => String(s.unitId).trim() === unit)
+      .filter(s =>
+        String(s.status).toLowerCase() === "active" ||
+        String(s.status).toLowerCase() === "pending"
+      );
+
+    if (ticker) {
+      if (shoutouts.length) {
+        ticker.textContent = shoutouts
+          .map(s => `📢 ${s.message} — ${s.business}`)
+          .join("   ⚽   ");
+      } else {
+        ticker.textContent = "🌊 Blue Wave World Cup 2026";
+      }
+    }
+
+    const promos = (data.promos || [])
+      .filter(p => String(p.unitId).trim() === unit)
+      .filter(p => p.Active === true || String(p.Active).toLowerCase() === "true");
+
+    if (promoBox) {
+      if (promos.length) {
+        const promo = promos[promos.length - 1];
+
+        promoBox.innerHTML = `
+          🎁 <strong>${promo.SponsorName}</strong><br>
+          ${promo.Message}<br>
+          <small>Valid until: ${promo.ValidUntil || "Today"}</small>
+        `;
+      } else {
+        promoBox.innerHTML = "🎁 No promo active today.";
+      }
+    }
+
+  } catch (err) {
+    if (ticker) ticker.textContent = "🌊 Blue Wave World Cup 2026";
+    if (promoBox) promoBox.innerHTML = "🎁 Promo loading unavailable.";
+  }
+}
+
+loadBlueWaveCommercials();
 setupLinks();
 setLang(localStorage.getItem('bwLang') || 'en');
 </script>
