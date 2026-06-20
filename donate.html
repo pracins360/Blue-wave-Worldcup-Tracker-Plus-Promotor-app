@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Blue Wave · Sponsor Program</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Sponsor App Specific Styles */
+        .sponsor-card {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .free-card {
+            border: 2px solid #4caf50;
+            background: #f1f8e9;
+        }
+        
+        .paid-card {
+            border-left: 8px solid #ffcd3c;
+        }
+        
+        .tier-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .tier-free { background: #4caf50; color: white; }
+        .tier-silver { background: #9e9e9e; color: white; }
+        .tier-gold { background: #ffc107; color: #002b54; }
+        .tier-premium { background: #002b54; color: #ffcd3c; }
+        
+        .price {
+            font-size: 32px;
+            font-weight: 800;
+            color: #002b54;
+        }
+        
+        .price small {
+            font-size: 12px;
+            font-weight: 400;
+        }
+        
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+        
+        .benefits-list li {
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .benefits-list li::before {
+            content: "✓";
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .day-selector {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            justify-content: center;
+        }
+        
+        .day-btn {
+            background: #eef3fc;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .day-count {
+            font-size: 24px;
+            font-weight: 800;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .total-price {
+            background: #eef3fc;
+            padding: 12px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 16px 0;
+        }
+        
+        .action-btn {
+            background: #ffcd3c;
+            color: #002b54;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .info-note {
+            background: #fff8e7;
+            padding: 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            color: #856404;
+            margin: 16px 0;
+        }
+        
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+            color: #002b54;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .disabled-link {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+<div style="max-width: 500px; margin: 0 auto; background: #f8fafd; min-height: 100vh; padding-bottom: 80px;">
+    
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #001e3c, #002b54); padding: 24px 16px; text-align: center; color: white;">
+        <h2>💝 BLUE WAVE DONATION PROGRAM</h2>
+        <p style="font-size: 12px; opacity: 0.9;">Support Curaçao's First World Cup</p>
+    </div>
+    
+    <!-- FREE TRIAL SECTION -->
+    <div class="sponsor-card free-card" style="margin: 16px;">
+        <span class="tier-badge tier-free">🆓 FREE TRIAL</span>
+        <h3>Try Before You Commit</h3>
+<div class="price">0 XCG</div>
+        <ul class="benefits-list">
+            <li>3 days of visibility</li>
+            <li>Rolling shoutout (text only)</li>
+            <li>Not clickable</li>
+            <li>No logo/image</li>
+        </ul>
+        <button class="action-btn" id="freeTrialBtn" style="background: #4caf50; color: white;">CLAIM FREE SPOT</button>
+        <div class="info-note">
+            ⚡ Free spots are limited. First come, first served. Max 3 days.
+        </div>
+    </div>
+    
+    <!-- PAID SPONSORS SECTION -->
+    <div style="padding: 0 16px;">
+        <h3 style="margin-bottom: 12px;">💰 DONATION SUPPORT</h3>
+        <p style="font-size: 13px; color: #666; margin-bottom: 16px;">Choose your tier. Minimum 5 days. Pay per day.</p>
+    </div>
+    
+    <!-- SILVER TIER (Shoutout only) -->
+    <div class="sponsor-card paid-card" id="silverCard" style="margin: 0 16px 16px 16px;" data-price="12">
+        <span class="tier-badge tier-silver">📢 SILVER · SHOUTOUT</span>
+        <h3>Scrolling Shoutout</h3>
+        <div class="price">Xcg 12 <small>/day</small></div>
+        <ul class="benefits-list">
+            <li>Scrolling text shoutout</li>
+            <li>Clickable link to your WhatsApp/website</li>
+            <li>Visible on ALL Blue Wave apps</li>
+            <li>Event Period total rotation (shared with others)</li>
+        </ul>
+        <div class="day-selector">
+            <button class="day-btn silver-dec">-</button>
+            <span class="day-count silver-days">5</span>
+            <button class="day-btn silver-inc">+</button>
+        </div>
+        <div class="total-price silver-total">Total: Xcg60 for 5 days</div>
+        <button class="action-btn silver-pay">💳 REQUEST PAYMENT</button>
+    </div>
+    
+    <!-- GOLD TIER (Logo + Shoutout) -->
+    <div class="sponsor-card paid-card" id="goldCard" style="margin: 0 16px 16px 16px;" data-price="20">
+        <span class="tier-badge tier-gold">🥇 GOLD · LOGO + SHOUTOUT</span>
+        <h3>Gold Sponsor Spot</h3>
+        <div class="price">Xcg20 <small>/day</small></div>
+        <ul class="benefits-list">
+            <li>Your LOGO in Gold section</li>
+            <li>Scrolling shoutout (clickable)</li>
+            <li>Visible on ALL Blue Wave apps</li>
+            <li>Premium placement priority</li>
+        </ul>
+        <div class="day-selector">
+            <button class="day-btn gold-dec">-</button>
+            <span class="day-count gold-days">5</span>
+            <button class="day-btn gold-inc">+</button>
+        </div>
+        <div class="total-price gold-total">Total: Xcg100 for 5 days</div>
+        <button class="action-btn gold-pay">💳 REQUEST PAYMENT</button>
+    </div>
+    
+    <!-- PREMIUM TIER (Banner + All) -->
+    <div class="sponsor-card paid-card" id="premiumCard" style="margin: 0 16px 16px 16px;" data-price="25">
+        <span class="tier-badge tier-premium">👑 PREMIUM · BANNER</span>
+        <h3>Premium Sponsor Spot</h3>
+        <div class="price">Xcg25 <small>/day</small></div>
+        <ul class="benefits-list">
+            <li>PREMIUM BANNER on landing page</li>
+            <li>Your LOGO in Gold section</li>
+            <li>Scrolling shoutout (clickable)</li>
+            <li>Top visibility on ALL apps</li>
+            <li>Priority rotation (seen more often)</li>
+        </ul>
+        <div class="day-selector">
+            <button class="day-btn premium-dec">-</button>
+            <span class="day-count premium-days">5</span>
+            <button class="day-btn premium-inc">+</button>
+        </div>
+        <div class="total-price premium-total">Total: Xcg125 for 5 days</div>
+        <button class="action-btn premium-pay">💳 REQUEST PAYMENT</button>
+    </div>
+    
+    <!-- Info Note -->
+    <div class="info-note" style="margin: 16px; text-align: center;">
+        📌 All prices are in Xcg. Payment via Sentoo or WhatsApp.<br>
+        After payment, send your logo and message to +599 9512 0536
+    </div>
+    
+    <!-- Back to Main App -->
+    <a href="index.html" class="back-link">
+        ← Back to Blue Wave Tracker
+    </a>
+    
+    <!-- Bottom Navigation -->
+    <div style="background: white; border-top: 1px solid #e2e8f0; display: flex; padding: 8px 16px; position: fixed; bottom: 0; left: 0; right: 0; max-width: 500px; margin: 0 auto;">
+        <a href="index.html" style="flex:1; text-align:center; text-decoration:none; color:#666; padding:8px;">
+            <div style="font-size:20px;">⚽</div>
+            <div style="font-size:10px;">Matches</div>
+        </a>
+        <a href="donate.html" style="flex:1; text-align:center; text-decoration:none; color:#002b54; padding:8px;">
+            <div style="font-size:20px;">💝</div>
+            <div style="font-size:10px;">Sponsor</div>
+        </a>
+        <a href="leaderboard.html" style="flex:1; text-align:center; text-decoration:none; color:#666; padding:8px;">
+            <div style="font-size:20px;">🏆</div>
+            <div style="font-size:10px;">Leaderboard</div>
+        </a>
+        <a href="promotions.html" style="flex:1; text-align:center; text-decoration:none; color:#666; padding:8px;">
+            <div style="font-size:20px;">📢</div>
+            <div style="font-size:10px;">Promos</div>
+        </a>
+    </div>
+</div>
+
+<script>
+    // ========== DAY COUNTER FUNCTIONS ==========
+    function setupDayCounter(tier, pricePerDay) {
+        let days = 5;
+        const daysSpan = document.querySelector(`.${tier}-days`);
+        const totalSpan = document.querySelector(`.${tier}-total`);
+        const decBtn = document.querySelector(`.${tier}-dec`);
+        const incBtn = document.querySelector(`.${tier}-inc`);
+        const payBtn = document.querySelector(`.${tier}-pay`);
+        
+        function updateTotal() {
+            const total = days * pricePerDay;
+            daysSpan.textContent = days;
+            totalSpan.innerHTML = `Total: $${total} for ${days} day${days > 1 ? 's' : ''}`;
+        }
+        
+        decBtn.addEventListener('click', () => {
+            if (days > 5) {
+                days--;
+                updateTotal();
+            }
+        });
+        
+        incBtn.addEventListener('click', () => {
+            if (days < 30) {
+                days++;
+                updateTotal();
+            }
+        });
+        
+        payBtn.addEventListener('click', () => {
+            const total = days * pricePerDay;
+            let tierName = '';
+            if (tier === 'silver') tierName = 'SILVER (Shoutout)';
+            if (tier === 'gold') tierName = 'GOLD (Logo + Shoutout)';
+            if (tier === 'premium') tierName = 'PREMIUM (Banner + All)';
+            
+            const message = `Hello! I want to become a ${tierName} sponsor for ${days} days ($${total}). Please send me payment instructions.`;
+            window.open(`https://wa.me/59995120536?text=${encodeURIComponent(message)}`, '_blank');
+        });
+        
+        updateTotal();
+    }
+    
+    // Initialize day counters
+    setupDayCounter('silver', 12);
+    setupDayCounter('gold', 20);
+    setupDayCounter('premium', 25);
+    
+    // Free Trial Button
+    document.getElementById('freeTrialBtn').addEventListener('click', () => {
+        const message = `Hello! I want to claim a FREE TRIAL sponsor spot (3 days, rolling shoutout). Please add me.`;
+        window.open(`https://wa.me/59995120536?text=${encodeURIComponent(message)}`, '_blank');
+    });
+</script>
+</body>
+</html>
