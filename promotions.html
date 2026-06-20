@@ -102,7 +102,27 @@
         renderGold("goldContainer");
         renderSilver("silverScroller");
     }
+    <h2>🎁 Add Promo</h2>
+
+<label>Business Name</label>
+<input id="promoBusiness" placeholder="Example: Pizza Hut">
+
+<label>Promo Message</label>
+<textarea id="promoMessage" placeholder="Show Blue Wave app and get 10% discount"></textarea>
+
+<label>Valid Until</label>
+<input id="promoValidUntil" placeholder="Example: 2026-06-30">
+
+<label>Link</label>
+<input id="promoLink" placeholder="https://wa.me/599...">
+
+<button onclick="savePromo()">SAVE PROMO</button>
+
+<div id="promoStatus"></div>
     
+  </div>
+
+<script>
     function shareApp() {
         if (navigator.share) {
             navigator.share({
