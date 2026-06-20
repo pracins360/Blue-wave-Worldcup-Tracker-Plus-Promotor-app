@@ -1,8 +1,7 @@
 /* ============================================
    CONFIG
 ============================================ */
-const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
-
+const API_URL = "https://script.google.com/macros/s/AKfycbzuh9dMshkt95gn7BX4oXMKBttAvGN-lYPS_wX0QeQaV5Bt_m_GJ-xLqg9MbEkQpGwe/exec";
 /* ============================================
    FLAG MAPPER (Emoji)
 ============================================ */
