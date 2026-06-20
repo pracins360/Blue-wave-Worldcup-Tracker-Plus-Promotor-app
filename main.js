@@ -151,7 +151,57 @@ function showSection(sectionId) {
         if (tab.getAttribute("data-tab") === sectionId) tab.classList.add("active");
     });
 }
+function getCurrentUnit() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("unit") || "CUR1";
+}
 
+function renderShoutouts(data) {
+  const box = document.getElementById("tickerText");
+  if (!box) return;
+
+  const unit = getCurrentUnit();
+
+  const active = (data.shoutouts || [])
+    .filter(s => String(s.unitId).trim() === unit)
+    .filter(s =>
+      String(s.status).toLowerCase() === "active" ||
+      String(s.status).toLowerCase() === "pending"
+    );
+
+  if (!active.length) {
+    box.textContent = "🌊 Blue Wave World Cup 2026";
+    return;
+  }
+
+  box.textContent = active
+    .map(s => `📢 ${s.message} — ${s.business}`)
+    .join("   ⚽   ");
+}
+
+function renderDailyPromo(data) {
+  const box = document.getElementById("dailyPromoBox");
+  if (!box) return;
+
+  const unit = getCurrentUnit();
+
+  const activePromos = (data.promos || [])
+    .filter(p => String(p.unitId).trim() === unit)
+    .filter(p => p.Active === true || String(p.Active).toLowerCase() === "true");
+
+  if (!activePromos.length) {
+    box.innerHTML = "🎁 No promo active today.";
+    return;
+  }
+
+  const promo = activePromos[activePromos.length - 1];
+
+  box.innerHTML = `
+    🎁 <strong>${promo.SponsorName}</strong><br>
+    ${promo.Message}<br>
+    <small>Valid until: ${promo.ValidUntil || "Today"}</small>
+  `;
+}
 // ========== INITIALIZATION ==========
 document.addEventListener("DOMContentLoaded", () => {
     renderPremium("premiumContainer");
