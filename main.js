@@ -215,9 +215,8 @@ function renderDailyPromo(data) {
 }
 // ========== INITIALIZATION ==========
 document.addEventListener("DOMContentLoaded", () => { fetchBlueWaveData().then(data => {
-    renderShoutouts(data);
-    renderDailyPromo(data);
-});
+console.log("SHOUTOUT DATA", data.shoutouts);
+console.log("PROMO DATA", data.promos);});
     renderPremium("premiumContainer");
     renderGold("goldContainer");
     renderSilver("silverScroller");
