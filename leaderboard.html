@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Blue Wave · Leaderboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="landingPage">
+    <div class="banner-container">
+        <img src="https://i.ibb.co/KxtD3C2w/banner-world-cup-app.png" alt="Blue Wave 2026">
+    </div>
+    
+    <div class="premium-sponsor-area">
+        <div class="premium-title">⭐ TOGETHER FOR CURAÇAO ⭐</div>
+        <div id="premiumContainer" class="premium-grid"></div>
+    </div>
+    
+    <button class="enter-btn" id="enterAppBtn">🏆 VIEW LEADERBOARD</button>
+</div>
+
+<div id="appWrapper">
+    <div class="app-header">
+        <h2>🏆 PREDICTION LEADERBOARD</h2>
+        <p>Just for fun - bragging rights only!</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">🥇 TOP PREDICTORS</div>
+        <div id="leaderboardList" class="loading">Loading...</div>
+    </div>
+    
+    <div class="prediction-form">
+        <div style="font-weight:800;">🎯 TODAY'S PREDICTION</div>
+        <div style="font-size:14px; margin:6px 0 0;">Germany 🆚 Curaçao (June 15, 18:00)</div>
+        <div class="radio-group">
+            <label><input type="radio" name="matchPick" value="Germany"> Germany</label>
+            <label><input type="radio" name="matchPick" value="Curaçao"> Curaçao 🇨🇼</label>
+            <label><input type="radio" name="matchPick" value="Draw"> Draw</label>
+        </div>
+        <input type="text" id="fanName" placeholder="Your name / nickname" style="width:100%; padding:12px; border-radius:60px; border:1px solid #ccc; margin-bottom:12px;">
+        <button class="submit-pred" id="submitPredictionBtn">SUBMIT PREDICTION</button>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">📢 OUR SUPPORTERS</div>
+        <div id="goldContainer" class="gold-grid"></div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">🌟 SHOUTOUTS</div>
+        <div class="silver-frame">
+            <div id="silverScroller" class="silver-scroll"></div>
+        </div>
+    </div>
+    
+    <div class="chain-nav">
+        <a href="index.html">⚽ Matches</a>
+        <a href="donate.html">💝 Donate</a>
+        <a href="promotions.html">📢 Promotions</a>
+    </div>
+    
+    <button class="share-btn" id="shareAppBtn">📲 SHARE THIS APP</button>
+</div>
+
+<script src="sponsors.js"></script>
+<script>
+    let leaderboard = [
+        { user: "🇨🇼 Maria", points: 47, sponsored: false },
+        { user: "🇳🇱 Johan", points: 44, sponsored: false },
+        { user: "🇺🇸 Mike", points: 42, sponsored: false },
+        { user: "🇨🇼 Kevin", points: 39, sponsored: false },
+        { user: "🏆 BlueWave Bank", points: 35, sponsored: true, message: "Banking on victory!" }
+    ];
+    
+    function renderLeaderboard() {
+        const container = document.getElementById("leaderboardList");
+        const sorted = [...leaderboard].sort((a,b) => b.points - a.points);
+        container.innerHTML = sorted.slice(0,10).map((u,i) => `
+            <div class="leaderboard-item">
+                <div class="rank">#${i+1}</div>
+                <div style="flex:1;"><strong>${u.user}</strong> ${u.sponsored ? '<span class="sponsored-badge">SPONSORED</span>' : ''}${u.sponsored ? `<div style="font-size:10px;">${u.message || ''}</div>` : ''}</div>
+                <div>${u.points} pts</div>
+            </div>
+        `).join('');
+    }
+    
+    function submitPrediction() {
+        const selected = document.querySelector('input[name="matchPick"]:checked');
+        const nameInput = document.getElementById("fanName").value.trim();
+        if (!selected) { alert("⚡ Select Germany, Curaçao or Draw"); return; }
+        if (!nameInput) { alert("Enter your name for the leaderboard"); return; }
+        alert(`🌟 Thanks ${nameInput}! Your prediction: ${selected.value}. Check back after match!`);
+    }
+    
+    function enterApp() {
+        document.getElementById("landingPage").style.display = "none";
+        document.getElementById("appWrapper").style.display = "block";
+        renderLeaderboard();
+        renderGold("goldContainer");
+        renderSilver("silverScroller");
+    }
+    
+    function shareApp() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Blue Wave 2026',
+                text: '🏆 Join the Blue Wave prediction leaderboard!',
+                url: window.location.href
+            }).catch(() => { navigator.clipboard.writeText(window.location.href); alert('Link copied!'); });
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert('🔗 Link copied! Share: ' + window.location.href);
+        }
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        renderPremium("premiumContainer");
+        document.getElementById("enterAppBtn").addEventListener("click", enterApp);
+        document.getElementById("shareAppBtn").addEventListener("click", shareApp);
+        document.getElementById("submitPredictionBtn").addEventListener("click", submitPrediction);
+    });
+</script>
+</body>
+</html>
