@@ -21,7 +21,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     }
 
-    h1 {
+    h1, h2 {
       color: #0066cc;
       text-align: center;
     }
@@ -50,10 +50,14 @@
       border: none;
     }
 
-    #status {
+    #status, #shoutStatus {
       margin-top: 15px;
       text-align: center;
       font-weight: bold;
+    }
+
+    hr {
+      margin: 25px 0;
     }
   </style>
 </head>
@@ -62,7 +66,9 @@
 
   <div class="card">
     <h1>🌊 Blue Wave CUR1</h1>
-    <p style="text-align:center;">Promoter Lead Test</p>
+    <p style="text-align:center;">Promoter App Test</p>
+
+    <h2>📝 Add Lead</h2>
 
     <label>Business Name</label>
     <input id="business" placeholder="Example: Pizza Hut">
@@ -86,6 +92,20 @@
     <button onclick="saveLead()">SAVE LEAD</button>
 
     <div id="status"></div>
+
+    <hr>
+
+    <h2>📢 Add Shoutout</h2>
+
+    <label>Business Name</label>
+    <input id="shoutBusiness" placeholder="Example: Pizza Hut">
+
+    <label>Shoutout Message</label>
+    <textarea id="shoutMessage" placeholder="Good luck Curaçao from Pizza Hut!"></textarea>
+
+    <button onclick="saveShoutout()">SAVE SHOUTOUT</button>
+
+    <div id="shoutStatus"></div>
   </div>
 
 <script>
@@ -114,9 +134,7 @@ async function saveLead() {
     await fetch(API_URL, {
       method: "POST",
       mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data)
     });
 
@@ -126,6 +144,35 @@ async function saveLead() {
     document.getElementById("contactPerson").value = "";
     document.getElementById("whatsapp").value = "";
     document.getElementById("notes").value = "";
+
+  } catch (error) {
+    status.innerHTML = "❌ Error. Check connection.";
+  }
+}
+
+async function saveShoutout() {
+  const status = document.getElementById("shoutStatus");
+  status.innerHTML = "Saving shoutout...";
+
+  const data = {
+    action: "addShoutout",
+    unitId: getUnitId(),
+    business: document.getElementById("shoutBusiness").value,
+    message: document.getElementById("shoutMessage").value
+  };
+
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    status.innerHTML = "✅ Shoutout sent. Check SHOUTOUTS sheet.";
+
+    document.getElementById("shoutBusiness").value = "";
+    document.getElementById("shoutMessage").value = "";
 
   } catch (error) {
     status.innerHTML = "❌ Error. Check connection.";
