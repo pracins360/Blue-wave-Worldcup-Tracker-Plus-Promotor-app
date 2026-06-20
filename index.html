@@ -348,9 +348,8 @@ async function loadBlueWaveCommercials() {
       }
     }
 
-    const promos = (data.promos || [])
-      .filter(p => String(p.unitId).trim() === unit)
-      .filter(p => p.Active === true || String(p.Active).toLowerCase() === "true");
+   const promos = (data.promos || [])
+  .filter(p => String(p.unitId).trim().toUpperCase() === unit.toUpperCase());
 
     if (promoBox) {
       if (promos.length) {
