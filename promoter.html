@@ -106,6 +106,26 @@
     <button onclick="saveShoutout()">SAVE SHOUTOUT</button>
 
     <div id="shoutStatus"></div>
+<hr>
+
+<h2>🎁 Add Promo</h2>
+
+<label>Business Name</label>
+<input id="promoBusiness" placeholder="Example: Pizza Hut">
+
+<label>Promo Message</label>
+<textarea id="promoMessage" placeholder="Show Blue Wave app and get 10% discount"></textarea>
+
+<label>Valid Until</label>
+<input id="promoValidUntil" placeholder="Example: 2026-06-30">
+
+<label>Link</label>
+<input id="promoLink" placeholder="https://wa.me/599...">
+
+<button onclick="savePromo()">SAVE PROMO</button>
+
+<div id="promoStatus"></div>
+    
   </div>
 
 <script>
@@ -160,7 +180,38 @@ async function saveShoutout() {
     business: document.getElementById("shoutBusiness").value,
     message: document.getElementById("shoutMessage").value
   };
+async function savePromo() {
+  const status = document.getElementById("promoStatus");
+  status.innerHTML = "Saving promo...";
 
+  const data = {
+    action: "addPromo",
+    unitId: getUnitId(),
+    sponsorName: document.getElementById("promoBusiness").value,
+    message: document.getElementById("promoMessage").value,
+    validUntil: document.getElementById("promoValidUntil").value,
+    link: document.getElementById("promoLink").value
+  };
+
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    status.innerHTML = "✅ Promo sent. Check PROMOS sheet.";
+
+    document.getElementById("promoBusiness").value = "";
+    document.getElementById("promoMessage").value = "";
+    document.getElementById("promoValidUntil").value = "";
+    document.getElementById("promoLink").value = "";
+
+  } catch (error) {
+    status.innerHTML = "❌ Error. Check connection.";
+  }
+}
   try {
     await fetch(API_URL, {
       method: "POST",
