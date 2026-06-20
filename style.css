@@ -1,0 +1,446 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Inter', Helvetica, Arial, sans-serif;
+  background: #eef3fc;
+  min-height: 100vh;
+}
+
+/* ========== LANDING PAGE ========== */
+#landingPage {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #001e3c, #002b54);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.banner-container {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+}
+
+.banner-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Premium Sponsor Grid - Clean & Professional */
+.premium-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.premium-ad {
+    background: white;
+    border-radius: 12px;
+    padding: 8px;
+    cursor: pointer;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.premium-ad:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.premium-ad img {
+    max-width: 95%;
+    height: auto;
+    max-height: 90px;
+    object-fit: contain;
+}
+
+/* Remove the text name - logo is enough */
+.premium-ad .ad-name {
+    display: none;
+}
+.enter-btn {
+  background: #ffcd3c;
+  border: none;
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto 0;
+  display: block;
+  padding: 16px 20px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #00264d;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+.enter-btn:hover {
+  background: #ffdd77;
+  transform: scale(0.98);
+}
+
+/* ========== APP WRAPPER ========== */
+#appWrapper {
+  display: none;
+  max-width: 500px;
+  margin: 0 auto;
+  background: #f8fafd;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.app-header {
+  background: #002b54;
+  padding: 20px 16px;
+  text-align: center;
+  color: white;
+}
+
+.app-header h2 {
+  font-size: 1.7rem;
+  letter-spacing: 1px;
+}
+
+.app-header p {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  margin-top: 5px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  background: white;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #f1f5f9;
+  border: none;
+  cursor: pointer;
+  color: #2c3e66;
+  transition: 0.2s;
+}
+
+.tab.active {
+  background: #002b54;
+  color: white;
+}
+
+/* Sections */
+.section {
+  display: none;
+  padding: 18px 14px;
+  animation: fade 0.25s ease;
+}
+
+.section.active-section {
+  display: block;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cards */
+.card {
+  background: white;
+  border-radius: 28px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #002b54;
+  border-left: 5px solid #ffcd3c;
+  padding-left: 12px;
+  margin-bottom: 16px;
+}
+
+/* Match Items */
+.match-item {
+  background: #f8fafc;
+  border-radius: 20px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #eef2f6;
+}
+
+.match-date {
+  font-size: 11px;
+  color: #2c6e9e;
+  font-weight: 600;
+}
+
+.match-teams {
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 6px 0;
+}
+
+.match-score {
+  background: #e9f0f9;
+  padding: 4px 12px;
+  border-radius: 40px;
+  font-weight: 800;
+  color: #002b54;
+}
+
+/* Gold Grid */
+.gold-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;           /* REDUCED gap between boxes */
+}
+
+.gold-item {
+    background: #f1f5f9;
+    border-radius: 12px;  /* SMALLER rounded corners */
+    padding: 6px;         /* MINIMAL padding */
+    text-align: center;
+    cursor: pointer;
+    min-height: 100px;    /* Fixed minimum height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.gold-item:hover {
+  transform: translateY(-2px);
+  background: #e9f0f9;
+}
+
+.gold-item img {
+    max-width: 90%;       /* Take most of the width */
+    height: auto;         /* Auto height maintains ratio */
+    max-height: 80px;     /* Taller logos */
+    object-fit: contain;
+}
+
+.gold-item div {
+    font-size: 10px;
+    margin-top: 4px;
+    color: #003366;
+    font-weight: 600;
+}
+
+/* Silver Scrolling */
+.silver-frame {
+  background: #002b54;
+  border-radius: 40px;
+  padding: 12px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.silver-scroll {
+  display: flex;
+  gap: 36px;
+  white-space: nowrap;
+  animation: scrollMarquee 22s linear infinite;
+}
+
+.silver-item {
+  color: #ffdd99;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+@keyframes scrollMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Chain Navigation */
+.chain-nav {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+  margin: 20px 0;
+  padding: 0 14px;
+}
+
+.chain-nav a {
+  flex: 1;
+  text-align: center;
+  background: #002b54;
+  color: white;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.chain-nav a:hover {
+  background: #ffcd3c;
+  color: #002b54;
+}
+
+/* Share Button */
+.share-btn {
+  background: #25d366;
+  border: none;
+  width: calc(100% - 28px);
+  margin: 0 14px 20px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: white;
+  border-radius: 60px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.share-btn:hover {
+  background: #128c7e;
+  transform: scale(0.98);
+}
+
+/* Donation Page Styles */
+.donation-tier {
+  background: white;
+  border-radius: 20px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-left: 5px solid #ffcd3c;
+}
+
+.donation-tier h3 {
+  color: #002b54;
+  margin-bottom: 8px;
+}
+
+.donation-tier .price {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffcd3c;
+  margin: 8px 0;
+}
+
+.donation-btn {
+  background: #002b54;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 40px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* Leaderboard Styles */
+.leaderboard-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9edf2;
+}
+
+.rank {
+  font-weight: 800;
+  color: #ffb347;
+  width: 40px;
+}
+
+.sponsored-badge {
+  background: #ffcd3c;
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 30px;
+  margin-left: 8px;
+  color: #002b54;
+  font-weight: 700;
+}
+
+.prediction-form {
+  background: #eef3fc;
+  border-radius: 28px;
+  padding: 16px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.submit-pred {
+  background: #002b54;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 40px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Promotions Styles */
+.promo-card {
+  background: #fff8e7;
+  border-left: 5px solid #ffcd3c;
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.promo-title {
+  font-weight: 800;
+  color: #002b54;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 28px;
+  color: #4a627a;
+}
+
+/* Utilities */
+.hidden {
+  display: none;
+}
