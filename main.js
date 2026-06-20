@@ -214,7 +214,7 @@ function renderDailyPromo(data) {
   `;
 }
 // ========== INITIALIZATION ==========
-document.addEventListener("DOMContentLoaded", () => { fetchBlueWaveData().then(data => {
+document.addEventListener("DOMContentLoaded", () => { document.getElementById("tickerText").textContent = "🚀 JS IS LOADED"; fetchBlueWaveData().then(data => {
 function renderShoutouts(data) {
 
   const box = document.getElementById("tickerText");
