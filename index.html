@@ -121,6 +121,39 @@ h1{
   color:#5c7184;
   font-size:13px;
 }
+  .ticker {
+  background: #003b73;
+  color: white;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 10px;
+  font-weight: bold;
+}
+
+#tickerText {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollText 22s linear infinite;
+}
+
+@keyframes scrollText {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.daily-promo {
+  background: #fff3cd;
+  color: #3b2f00;
+  padding: 14px;
+  margin: 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-align: center;
+}
 .toast{
   position:fixed;
   left:50%;
@@ -138,7 +171,7 @@ h1{
 <body>
 
 <div id="shoutoutTicker" class="ticker">
-  <span id="tickerText">🌊 Loading shoutouts...</span>
+  <span id="tickerText">📢 TEST SCROLLING TEXT ⚽ BLUE WAVE CUR1 ⚽ TEST SCROLLING TEXT</span>
 </div>
 
 <div id="dailyPromoBox" class="daily-promo">
