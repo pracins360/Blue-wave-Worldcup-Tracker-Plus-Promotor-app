@@ -112,7 +112,11 @@ async function loadPromos() {
     container.innerHTML = "Could not load promos.";
   }
 }
-
+function enterApp() {
+  document.getElementById("landingPage").style.display = "none";
+  document.getElementById("appWrapper").style.display = "block";
+  loadPromos();
+}
 function formatLink(link) {
   if (!link) return "";
   if (link.startsWith("http")) return link;
@@ -137,14 +141,22 @@ function shareApp() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  loadPromos();
 
-  if (typeof renderPremium === "function") renderPremium("premiumContainer");
-  if (typeof renderGold === "function") renderGold("goldContainer");
-  if (typeof renderSilver === "function") renderSilver("silverScroller");
+  if (typeof renderPremium === "function")
+    renderPremium("premiumContainer");
+
+  if (typeof renderGold === "function")
+    renderGold("goldContainer");
+
+  if (typeof renderSilver === "function")
+    renderSilver("silverScroller");
+
+  const enterBtn = document.getElementById("enterAppBtn");
+  if (enterBtn) enterBtn.addEventListener("click", enterApp);
 
   const shareBtn = document.getElementById("shareAppBtn");
   if (shareBtn) shareBtn.addEventListener("click", shareApp);
+
 });
 </script>
 </body>
