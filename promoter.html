@@ -76,8 +76,7 @@
     <label>Contact Person</label>
     <input id="contactPerson" placeholder="Owner name">
 
-    <label>WhatsApp</label>
-    <input id="whatsapp" placeholder="599...">
+
 
     <label>Interest</label>
     <select id="interest">
@@ -112,7 +111,8 @@
 
 <label>Business Name</label>
 <input id="promoBusiness" placeholder="Example: Pizza Hut">
-
+    <label>WhatsApp</label>
+    <input id="whatsapp" placeholder="599...">
 <label>Promo Message</label>
 <textarea id="promoMessage" placeholder="Show Blue Wave app and get 10% discount"></textarea>
 
@@ -188,9 +188,11 @@ async function savePromo() {
     action: "addPromo",
     unitId: getUnitId(),
     sponsorName: document.getElementById("promoBusiness").value,
+    whatsapp: document.getElementById("promoWhatsapp").value,
     message: document.getElementById("promoMessage").value,
     validUntil: document.getElementById("promoValidUntil").value,
-    link: document.getElementById("promoLink").value
+    link: document.getElementById("promoLink").value,
+    promoType: "PROMOTER"
   };
 
   try {
@@ -204,6 +206,7 @@ async function savePromo() {
     status.innerHTML = "✅ Promo sent. Check PROMOS sheet.";
 
     document.getElementById("promoBusiness").value = "";
+    document.getElementById("promoWhatsapp").value = "";
     document.getElementById("promoMessage").value = "";
     document.getElementById("promoValidUntil").value = "";
     document.getElementById("promoLink").value = "";
