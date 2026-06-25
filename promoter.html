@@ -112,7 +112,7 @@
 <label>Business Name</label>
 <input id="promoBusiness" placeholder="Example: Pizza Hut">
     <label>WhatsApp</label>
-    <input id="whatsapp" placeholder="599...">
+    <input id="promoWhatsapp" placeholder="599...">
 <label>Promo Message</label>
 <textarea id="promoMessage" placeholder="Show Blue Wave app and get 10% discount"></textarea>
 
@@ -149,6 +149,61 @@ async function saveLead() {
     interest: document.getElementById("interest").value,
     notes: document.getElementById("notes").value
   };
+
+  await sendData(data, status, "✅ Lead sent. Check LEADS sheet.");
+}
+
+async function saveShoutout() {
+  const status = document.getElementById("shoutStatus");
+  status.innerHTML = "Saving shoutout...";
+
+  const data = {
+    action: "addShoutout",
+    unitId: getUnitId(),
+    business: document.getElementById("shoutBusiness").value,
+    whatsapp: document.getElementById("shoutWhatsapp") ? document.getElementById("shoutWhatsapp").value : "",
+    message: document.getElementById("shoutMessage").value,
+    type: "PROMOTER"
+  };
+
+  await sendData(data, status, "✅ Shoutout sent. Check SHOUTOUTS sheet.");
+}
+
+async function savePromo() {
+alert("Promo button clicked");
+  const status = document.getElementById("promoStatus");
+  status.innerHTML = "Saving promo...";
+
+  const data = {
+    action: "addPromo",
+    unitId: getUnitId(),
+    sponsorName: document.getElementById("promoBusiness").value,
+    whatsapp: document.getElementById("promoWhatsapp").value,
+    message: document.getElementById("promoMessage").value,
+    validUntil: document.getElementById("promoValidUntil").value,
+    link: document.getElementById("promoLink").value,
+    promoType: "PROMOTER"
+  };
+
+  await sendData(data, status, "✅ Promo sent. Check PROMOS sheet.");
+}
+
+async function sendData(data, statusElement, successMessage) {
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    statusElement.innerHTML = successMessage;
+
+  } catch (error) {
+    statusElement.innerHTML = "❌ Error. Check connection.";
+  }
+}
+</script>
 
   try {
     await fetch(API_URL, {
