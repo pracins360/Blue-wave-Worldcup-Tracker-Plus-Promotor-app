@@ -121,8 +121,7 @@ This section is only for Blue Wave promoters collecting new participating busine
 <label>Valid Until</label>
 <input id="promoValidUntil" placeholder="Example: 2026-06-30">
 
-<label>Link</label>
-<input id="promoLink" placeholder="https://wa.me/599...">
+
 
 <button onclick="savePromo()">SAVE PROMO</button>
 <p style="font-size:12px;color:#666;text-align:center;margin-top:10px;">
@@ -193,7 +192,13 @@ async function savePromo() {
     whatsapp: document.getElementById("promoWhatsapp").value,
     message: document.getElementById("promoMessage").value,
     validUntil: document.getElementById("promoValidUntil").value,
-    link: document.getElementById("promoLink").value,
+    link:
+  "https://wa.me/59995120536?text=" +
+  encodeURIComponent(
+    "Hi, I would like more information about " +
+    document.getElementById("promoBusiness").value +
+    "."
+  ),
     promoType: "PROMOTER"
   };
 
