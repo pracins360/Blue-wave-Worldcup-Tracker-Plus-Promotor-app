@@ -65,11 +65,13 @@
 <body>
 
   <div class="card">
-    <h1>🌊 Blue Wave CUR1</h1>
-    <p style="text-align:center;">Promoter App Test</p>
+    <h1>🌊 Blue Wave Business Portal</h1>
+<p>1 FREE Shoutout + 1 FREE Daily Promo for every participating business.</p>
 
-    <h2>📝 Add Lead</h2>
-
+   <h2>📝 Promoters Only</h2>
+<p style="font-size:13px;color:#666;">
+This section is only for Blue Wave promoters collecting new participating businesses.
+</p>
     <label>Business Name</label>
     <input id="business" placeholder="Example: Pizza Hut">
 
@@ -94,7 +96,7 @@
 
     <hr>
 
-    <h2>📢 Add Shoutout</h2>
+    <h2>📢 FREE Business Shoutout</h2>
 
     <label>Business Name</label>
     <input id="shoutBusiness" placeholder="Example: Pizza Hut">
@@ -107,7 +109,7 @@
     <div id="shoutStatus"></div>
 <hr>
 
-<h2>🎁 Add Promo</h2>
+<h2>🎁 FREE Daily Promo</h2>
 
 <label>Business Name</label>
 <input id="promoBusiness" placeholder="Example: Pizza Hut">
@@ -123,11 +125,12 @@
 <input id="promoLink" placeholder="https://wa.me/599...">
 
 <button onclick="savePromo()">SAVE PROMO</button>
-
+<p style="font-size:12px;color:#666;text-align:center;margin-top:10px;">
+Each participating business receives one FREE shoutout and one FREE daily promo during this campaign.
+</p>
 <div id="promoStatus"></div>
     
   </div>
-
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzuh9dMshkt95gn7BX4oXMKBttAvGN-lYPS_wX0QeQaV5Bt_m_GJ-xLqg9MbEkQpGwe/exec";
 
@@ -136,10 +139,25 @@ function getUnitId() {
   return params.get("unit") || "CUR1";
 }
 
-async function saveLead() {
-  const status = document.getElementById("status");
+async function postToSheet(data, statusId, successText) {
+  const status = document.getElementById(statusId);
   status.innerHTML = "Saving...";
 
+  try {
+    await fetch(API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    status.innerHTML = successText;
+  } catch (error) {
+    status.innerHTML = "❌ Error. Check connection.";
+  }
+}
+
+async function saveLead() {
   const data = {
     action: "addLead",
     unitId: getUnitId(),
@@ -150,13 +168,10 @@ async function saveLead() {
     notes: document.getElementById("notes").value
   };
 
-  await sendData(data, status, "✅ Lead sent. Check LEADS sheet.");
+  await postToSheet(data, "status", "✅ Lead sent. Check LEADS sheet.");
 }
 
 async function saveShoutout() {
-  const status = document.getElementById("shoutStatus");
-  status.innerHTML = "Saving shoutout...";
-
   const data = {
     action: "addShoutout",
     unitId: getUnitId(),
@@ -166,14 +181,10 @@ async function saveShoutout() {
     type: "PROMOTER"
   };
 
-  await sendData(data, status, "✅ Shoutout sent. Check SHOUTOUTS sheet.");
+  await postToSheet(data, "shoutStatus", "✅ Shoutout sent. Check SHOUTOUTS sheet.");
 }
 
 async function savePromo() {
-alert("Promo button clicked");
-  const status = document.getElementById("promoStatus");
-  status.innerHTML = "Saving promo...";
-
   const data = {
     action: "addPromo",
     unitId: getUnitId(),
@@ -185,109 +196,16 @@ alert("Promo button clicked");
     promoType: "PROMOTER"
   };
 
-  await sendData(data, status, "✅ Promo sent. Check PROMOS sheet.");
-}
-
-async function sendData(data, statusElement, successMessage) {
-  try {
-    await fetch(API_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    statusElement.innerHTML = successMessage;
-
-  } catch (error) {
-    statusElement.innerHTML = "❌ Error. Check connection.";
-  }
+  await postToSheet(data, "promoStatus", "✅ Promo sent. Check PROMOS sheet.");
 }
 </script>
 
-  try {
-    await fetch(API_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
 
-    status.innerHTML = "✅ Lead sent. Check LEADS sheet.";
 
-    document.getElementById("business").value = "";
-    document.getElementById("contactPerson").value = "";
-    document.getElementById("whatsapp").value = "";
-    document.getElementById("notes").value = "";
 
-  } catch (error) {
-    status.innerHTML = "❌ Error. Check connection.";
-  }
-}
 
-async function saveShoutout() {
-  const status = document.getElementById("shoutStatus");
-  status.innerHTML = "Saving shoutout...";
 
-  const data = {
-    action: "addShoutout",
-    unitId: getUnitId(),
-    business: document.getElementById("shoutBusiness").value,
-    message: document.getElementById("shoutMessage").value
-  };
-async function savePromo() {
-  const status = document.getElementById("promoStatus");
-  status.innerHTML = "Saving promo...";
 
-  const data = {
-    action: "addPromo",
-    unitId: getUnitId(),
-    sponsorName: document.getElementById("promoBusiness").value,
-    whatsapp: document.getElementById("promoWhatsapp").value,
-    message: document.getElementById("promoMessage").value,
-    validUntil: document.getElementById("promoValidUntil").value,
-    link: document.getElementById("promoLink").value,
-    promoType: "PROMOTER"
-  };
 
-  try {
-    await fetch(API_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
 
-    status.innerHTML = "✅ Promo sent. Check PROMOS sheet.";
-
-    document.getElementById("promoBusiness").value = "";
-    document.getElementById("promoWhatsapp").value = "";
-    document.getElementById("promoMessage").value = "";
-    document.getElementById("promoValidUntil").value = "";
-    document.getElementById("promoLink").value = "";
-
-  } catch (error) {
-    status.innerHTML = "❌ Error. Check connection.";
-  }
-}
-  try {
-    await fetch(API_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    status.innerHTML = "✅ Shoutout sent. Check SHOUTOUTS sheet.";
-
-    document.getElementById("shoutBusiness").value = "";
-    document.getElementById("shoutMessage").value = "";
-
-  } catch (error) {
-    status.innerHTML = "❌ Error. Check connection.";
-  }
-}
-</script>
-
-</body>
-</html>
+  
